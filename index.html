@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة عرض نتائج الطلاب - جامعة بني سويف الأهلية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="logo.jpeg" alt="شعار الجامعة" class="univ-logo" id="univLogo">
+            </div>
+            <div class="title-container">
+                <h1>جامعة بني سويف الأهلية</h1>
+                <h2>بوابة الاستعلام عن نتائج الامتحانات</h2>
+            </div>
+        </header>
+
+        <!-- Search Form Card -->
+        <main class="main-content">
+            <div class="card" id="searchCard">
+                <h3>الاستعلام عن نتيجة الطالب</h3>
+                <p class="instruction-text">يرجى إدخال رقم الجلوس والرقم القومي المكون من 14 رقماً للاستعلام عن تفاصيل درجات المقررات الدراسية.</p>
+                <form id="searchForm" onsubmit="handleSearch(event)">
+                    <div class="form-group">
+                        <label for="seatNumber">رقم الجلوس:</label>
+                        <input type="text" id="seatNumber" required placeholder="مثال: 250019" pattern="[0-9]+" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="nationalId">الرقم القومي:</label>
+                        <input type="text" id="nationalId" required placeholder="مثال: 2704557548454" pattern="[0-9]{14}" title="يجب أن يتكون الرقم القومي من 14 رقماً" autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn">عرض النتيجة</button>
+                </form>
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+
+            <!-- Results Section (Hidden by default) -->
+            <div class="card results-card hidden" id="resultsCard">
+                <div class="print-header no-print">
+                    <button onclick="window.print()" class="btn btn-print">طباعة النتيجة</button>
+                    <button onclick="resetSearch()" class="btn btn-back">بحث جديد</button>
+                </div>
+
+                <!-- Official Academic Transcript Layout -->
+                <div class="transcript" id="transcriptArea">
+                    <div class="transcript-header">
+                        <div class="transcript-logo-right">
+                            <img src="logo.jpeg" alt="شعار جامعة بني سويف الأهلية" class="transcript-logo">
+                        </div>
+                        <div class="transcript-info-middle">
+                            <h2>جامعة بني سويف الأهلية</h2>
+                            <h3>بيان درجات الطلاب </h3>
+                            <p>الفصل الدراسي الثاني - للعام الأكاديمي 2025 / 2026</p>
+                        </div>
+                        <div class="transcript-date-left">
+                            <p>تاريخ الاستخراج: <span id="currentDate"></span></p>
+                            
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <!-- Student Metadata -->
+                    <div class="student-details">
+                        <div class="detail-row">
+                            <div class="detail-item"><strong>اسم الطالب:</strong> أحمد حسن ابوحلقه علي</div>
+                            <div class="detail-item"><strong>رقم الجلوس:</strong> <span id="displaySeatNumber"></span></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-item"><strong>الرقم القومي:</strong> <span id="displayNationalId"></span></div>
+                            <div class="detail-item"><strong>الكلية / البرنامج:</strong> كلية الطب البشري</div>
+                        </div>
+                    </div>
+
+                    <!-- Grades Table -->
+                    <table class="grades-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">المقرر الدراسي</th>
+                                <th colspan="2" class="exam-header-col">الامتحان الأول (نظري)</th>
+                                <th colspan="2" class="exam-header-col">الامتحان الثاني (عملي)</th>
+                                <th colspan="2" class="exam-header-col">الامتحان الثالث (نهائي)</th>
+                                <th rowspan="2">المجموع</th>
+                                <th rowspan="2">التقدير</th>
+                            </tr>
+                            <tr>
+                                <th>الدرجة</th>
+                                <th>العظمى</th>
+                                <th>الدرجة</th>
+                                <th>العظمى</th>
+                                <th>الدرجة</th>
+                                <th>العظمى</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Course 1 -->
+                            <tr>
+                                <td class="course-name">وحدة مبادئ الأمراض والأدوية</td>
+                                <td>36</td>
+                                <td>40</td>
+                                <td>48</td>
+                                <td>50</td>
+                                <td>70</td>
+                                <td>70</td>
+                                <td>154 / 160</td>
+                                <td>ممتاز</td>
+                            </tr>
+                            <!-- Course 2 -->
+                            <tr>
+                                <td class="course-name">وحدة الجهاز العضلي 2</td>
+                                <td>20</td>
+                                <td>25</td>
+                                <td>29</td>
+                                <td>35</td>
+                                <td>34</td>
+                                <td>40</td>
+                                <td>83 / 100</td>
+                                <td>جيد جداً</td>
+                            </tr>
+                            <!-- Course 3 -->
+                            <tr>
+                                <td class="course-name">علم الأجنة</td>
+                                <td>35</td>
+                                <td>35</td>
+                                <td>35</td>
+                                <td>40</td>
+                                <td>57</td>
+                                <td>60</td>
+                                <td>127 / 135</td>
+                                <td>ممتاز</td>
+                            </tr>
+                            <!-- Course 4 -->
+                            <tr>
+                                <td class="course-name">وحدة أمراض الدم</td>
+                                <td>29</td>
+                                <td>30</td>
+                                <td>42</td>
+                                <td>45</td>
+                                <td>63</td>
+                                <td>65</td>
+                                <td>133 / 140</td>
+                                <td>ممتاز</td>
+                            </tr>
+                            <!-- Course 5 -->
+                            <tr>
+                                <td class="course-name">التعرض المبكر للمرضى 1</td>
+                                <td>25</td>
+                                <td>25</td>
+                                <td>25</td>
+                                <td>25</td>
+                                <td class="empty-cell">-</td>
+                                <td class="empty-cell">-</td>
+                                <td>50 / 50</td>
+                                <td>ناجح</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Transcript Footer -->
+                    <div class="transcript-footer">
+                        <div class="signature-box">
+                            <p>شؤون الطلاب</p>
+                            <p class="sig-line">أ.د باسم علي </p>
+                        </div>
+                        <div class="signature-box">
+                            <p>عميد الكلية</p>
+                            <p class="sig-line">أ.د دعاء حمدي</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer no-print">
+            <p>&copy; 2026 جميع الحقوق محفوظة لجامعة بني سويف الأهلية</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
