@@ -9,8 +9,8 @@ function handleSearch(event) {
     const resultsCard = document.getElementById('resultsCard');
 
     // Expected credentials
-    const targetSeatNumber = '250019';
-    const targetNationalId = '30708072403492';
+    const targetSeatNumber = '250041';
+    const targetNationalId = '30703118800651';
 
     if (seatNumberInput === targetSeatNumber && nationalIdInput === targetNationalId) {
         // Clear error message if any
